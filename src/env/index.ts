@@ -7,7 +7,10 @@ const envSchema = z.object({
   DATABASE_URL: z.string(),
   MIGRATIONS_URL: z.string(),
   MIGRATIONS_EXT: z.string(),
-  PORT: z.number().default(3000),
+  PORT: z
+    .string()
+    .transform((port) => parseInt(port))
+    .default('3000'),
   HOST: z.enum(['localhost', '127.0.0.1']).default('localhost'),
 })
 
