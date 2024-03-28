@@ -25,16 +25,19 @@ export async function transactions(app: FastifyInstance): Promise<void> {
     return transactions
   })
 
-  app.get('/:id', async (request, reply) => {
+  app.get('/list/:id', async (request, reply) => {
     const getParamsTransactionSchema = z.object({
       id: z.string(),
     })
     const { id } = getParamsTransactionSchema.parse(request.params)
-    const transaction = await knex('transactions').where('id', id).select('*')
+    const transaction = await knex('transactions')
+      .where('id', id)
+      .select('*')
+      .first()
     reply.status(200).send(transaction)
   })
 
-  app.put('/:id', async (request, reply) => {
+  app.put('/list/:id', async (request, reply) => {
     const updateTransactionSchema = z.object({
       id: z.string(),
     })
@@ -50,17 +53,20 @@ export async function transactions(app: FastifyInstance): Promise<void> {
       request.body,
     )
 
-    await knex('transactions').where('id', id).update({
-      name,
-      amount,
-      type,
-      updatedAt: knex.fn.now(),
-    })
+    await knex('transactions')
+      .where('id', id)
+      .update({
+        name,
+        amount,
+        type,
+        updatedAt: knex.fn.now(),
+      })
+      .first()
 
     reply.status(200).send()
   })
 
-  app.delete('/:id', async (request, reply) => {
+  app.delete('/list/:id', async (request, reply) => {
     const deleteBodySchema = z.object({
       id: z.string(),
     })
