@@ -1,11 +1,6 @@
-import fastify from 'fastify'
 import { env } from './env'
-import { transactions } from './routes/transactions'
+import { app } from './app'
 
-const app = fastify()
-app.register(transactions, {
-  prefix: 'transactions',
-})
 app.listen({ port: env.PORT, host: env.HOST }, () => {
   console.log('server is up!')
 })
