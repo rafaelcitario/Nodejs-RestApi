@@ -4,5 +4,8 @@ node_modules
 database
 # enviroments
 .env
+.env.test
 # build 
 build
+# linters
+.eslintignore
