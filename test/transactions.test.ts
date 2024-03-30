@@ -1,11 +1,17 @@
-import { test, expect, afterAll, beforeAll, describe } from 'vitest'
+import { test, expect, afterAll, beforeAll, describe, beforeEach } from 'vitest'
 import { app } from '../src/app'
 import request from 'supertest'
 import { transactionDataCredit, transactionDataDebit } from './mock/mockData'
+import { execSync } from 'node:child_process'
 
 describe('transactions routes', () => {
   beforeAll(async () => {
     await app.ready()
+  })
+
+  beforeEach(async () => {
+    execSync('npm run migrate:rollback')
+    execSync('npm run migrate:latest')
   })
 
   test('should create a new credit transaction', async () => {
@@ -20,6 +26,28 @@ describe('transactions routes', () => {
       .post('/transactions/create')
       .send(transactionDataDebit)
     expect((await response).status).toEqual(201)
+  })
+
+  test.only('should update some transaction', async () => {
+    const headerPost = await request(app.server)
+      .post('/transactions/create')
+      .send(transactionDataCredit)
+
+    const cookie = headerPost.header['set-cookie']
+
+    const transaction = await request(app.server)
+      .get('/transactions/list')
+      .set('Cookie', cookie)
+
+    const body = transaction.body[0]
+
+    const update = await request(app.server)
+      .put(`/transactions/list/${body.id}`)
+      .send(transactionDataDebit)
+
+    console.log(`/transactions/list/${body.id}`)
+    console.log(body)
+    console.log(update.body)
   })
 
   test('should be abble to list all credit transactions', async () => {
@@ -62,5 +90,7 @@ describe('transactions routes', () => {
     ])
   })
 
-  afterAll(async () => await app.close())
+  afterAll(async () => {
+    await app.close()
+  })
 })

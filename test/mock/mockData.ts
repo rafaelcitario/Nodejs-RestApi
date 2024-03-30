@@ -5,6 +5,6 @@ export const transactionDataCredit = {
 }
 export const transactionDataDebit = {
   name: 'new debit transactions',
-  amount: 15.5,
+  amount: 55.1,
   type: 'debit',
 }
