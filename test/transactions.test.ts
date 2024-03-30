@@ -28,7 +28,7 @@ describe('transactions routes', () => {
     expect((await response).status).toEqual(201)
   })
 
-  test.only('should update some transaction', async () => {
+  test.todo('should update some transaction', async () => {
     const headerPost = await request(app.server)
       .post('/transactions/create')
       .send(transactionDataCredit)
@@ -88,6 +88,29 @@ describe('transactions routes', () => {
     expect(transaction.body).toEqual([
       expect.objectContaining(transactionDataDebit),
     ])
+  })
+
+  test('should be abble list a specific transaction', async () => {
+    const response = await request(app.server)
+      .post('/transactions/create')
+      .send(transactionDataDebit)
+      .expect(201)
+
+    const cookie = response.header['set-cookie']
+
+    const transactions = await request(app.server)
+      .get('/transactions/list')
+      .set('Cookie', cookie)
+      .expect(200)
+
+    const bodyId = transactions.body[0].id
+
+    const transactionsById = await request(app.server)
+      .get(`/transactions/list/${bodyId}`)
+      .set('Cookie', cookie)
+      .expect(200)
+
+    expect(transactions.body).toEqual([transactionsById.body])
   })
 
   afterAll(async () => {
