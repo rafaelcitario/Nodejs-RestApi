@@ -1,8 +1,14 @@
-import 'dotenv/config'
+import { config } from 'dotenv'
 import { z } from 'zod'
 
+process.env.NODE_ENV === 'test'
+  ? config({ path: '.env.test' })
+  : config({ path: '.env' })
+
 const envSchema = z.object({
-  NODE_ENV: z.enum(['development', 'production', 'test']).default('production'),
+  NODE_ENV: z
+    .enum(['development', 'production', 'test'])
+    .default('development'),
   DATABASE_CLIENT: z.string(),
   DATABASE_URL: z.string(),
   MIGRATIONS_URL: z.string(),

@@ -8,6 +8,7 @@
     "lint": "eslint src test --ext .ts --fix",
     "migrate:make": "npx knex migrate:make",
     "migrate:latest": "npx knex migrate:latest",
+    "migrate:rollback": "npx knex migrate:rollback",
     "test": "vitest"
   },
   "keywords": [],
