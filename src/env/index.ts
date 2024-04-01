@@ -16,7 +16,7 @@ const envSchema = z.object({
   PORT: z
     .string()
     .transform((port) => parseInt(port))
-    .default('3000'),
+    .default('10000'),
   HOST: z.enum(['localhost', '127.0.0.1']).default('localhost'),
 })
 
