@@ -1,7 +1,7 @@
 # dependencies
 node_modules
 # databases
-database/db/*.db
+*.db
 # enviroments
 .env
 .env.test
