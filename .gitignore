@@ -1,11 +1,12 @@
 # dependencies
 node_modules
+
 # databases
-# *.db
+*.db
 # enviroments
 .env
 .env.test
 # build 
 build
+
 # linters
-.eslintignore
