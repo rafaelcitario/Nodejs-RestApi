@@ -3,7 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ['eslint:recommended', '@rocketseat/eslint-config/node'],
+  extends: ['@rocketseat/eslint-config/node'],
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',

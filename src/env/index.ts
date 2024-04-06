@@ -1,11 +1,11 @@
 import { config } from 'dotenv'
-import { z } from 'zod'
+import z from '../lib/zod'
 
 process.env.NODE_ENV === 'test'
   ? config({ path: '.env.test' })
   : config({ path: '.env' })
 
-const envSchema = z.object({
+export const envSchema = z.object({
   NODE_ENV: z
     .enum(['development', 'production', 'test'])
     .default('development'),
@@ -16,7 +16,7 @@ const envSchema = z.object({
   PORT: z
     .string()
     .transform((port) => parseInt(port))
-    .default('10000'),
+    .default('3000'),
   HOST: z.enum(['localhost', '127.0.0.1']).default('localhost'),
 })
 

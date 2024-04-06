@@ -1,11 +1,6 @@
-import fastify from 'fastify'
+import { transactionRoutes } from './http/routes/transactions'
+import { fastify, cookies } from './lib/fastify'
 
-import { transactions } from './routes/transactions'
-import cookies from '@fastify/cookie'
 export const app = fastify()
-
 app.register(cookies)
-
-app.register(transactions, {
-  prefix: 'transactions',
-})
+app.register(transactionRoutes)
